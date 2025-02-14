@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Auction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuctionController extends Controller
 {
     public function index()
     {
-        $auctions = Auction::all(); // Mengambil semua data lelang
+        $auctions = Auction::orderBy('id', 'desc')->get(); // Ambil data dengan urutan terbaru
         return view('auctions.index', compact('auctions'));
     }
     public function create()
@@ -20,20 +21,30 @@ class AuctionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'item_name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
             'starting_price' => 'required|numeric|min:1',
             'end_date' => 'required|date|after:now',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000'
         ]);
 
-        Auction::create([
+        $data = [
             'user_id' => Auth::id(),
-            'item_name' => $request->item_name,
+            'title' => $request->title,
             'description' => $request->description,
             'starting_price' => $request->starting_price,
             'current_price' => $request->starting_price,
             'end_date' => $request->end_date,
-        ]);
+        ];
+
+        // Handle image upload if present
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->store('auction-images', 'public');
+            $data['image_path'] = $path;
+        }
+
+        Auction::create($data);
 
         return redirect()->route('auctions.index')->with('success', 'Lelang berhasil dibuat.');
     }

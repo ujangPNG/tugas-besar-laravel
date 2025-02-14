@@ -16,10 +16,11 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->text('description');
-            $table->decimal('starting_price',10,2);
-            $table->decimal('current_price', 10, 2);
-            $table->dateTime('end_date'); //close
-            $table->boolean('is_closed')->default(false); // status buka tutup 
+            $table->string('image_path')->nullable();
+            $table->decimal('starting_price', 20, 2);
+            $table->decimal('current_price', 20, 2);
+            $table->dateTime('end_date');
+            $table->boolean('is_closed')->default(false);
             $table->timestamps();
         });
     }

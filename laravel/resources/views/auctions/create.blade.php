@@ -4,17 +4,26 @@
 <div class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold text-green-600 mb-4">Buat Lelang Baru</h2>
     
-    <form action="{{ route('auctions.store') }}" method="POST" class="max-w-md space-y-4">
+    <form action="{{ route('auctions.store') }}" method="POST" class="max-w-md space-y-4" enctype="multipart/form-data">
         @csrf
         
         <div>
-            <label for="item_name" class="block text-gray-700 font-bold mb-2">Nama Item</label>
+            <label for="title" class="block text-gray-700 font-bold mb-2">Nama Item</label>
             <input type="text" 
-                   name="item_name" 
-                   id="item_name" 
+                   name="title" 
+                   id="title" 
                    required 
                    class="w-full border rounded px-3 py-2"
-                   value="{{ old('item_name') }}">
+                   value="{{ old('title') }}">
+        </div>
+
+        <div>
+            <label for="image" class="block text-gray-700 font-bold mb-2">Gambar Produk (Opsional)</label>
+            <input type="file" 
+                   name="image" 
+                   id="image" 
+                   accept="image/*"
+                   class="w-full border rounded px-3 py-2 text-gray-700">
         </div>
 
         <div>
@@ -56,5 +65,15 @@
             </a>
         </div>
     </form>
+
+    @if ($errors->any())
+        <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </div>
 @endsection

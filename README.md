@@ -5,5 +5,10 @@ https://github.com/ujangPNG/tugas-besar-laravel/tree/progress
 (comment allowed)
 https://docs.google.com/document/d/1aLKvt86dR3p5bM2XWRmHSLlpqwGogH1KxHwkr3pRJCk/edit?usp=sharing  
   
-update terakhir : login pake breeze  
-udah itu aja
+  tutorial 
+  ```npm run dev```
+  ```php artisan migrate```
+  ```php artisan serve```   
+    
+udah itu aja  
+bonus fungsi : ```!= $auction->user_id``` biar yg punya item ga bisa nambahin bid

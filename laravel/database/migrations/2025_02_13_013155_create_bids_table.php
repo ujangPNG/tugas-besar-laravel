@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('auction_id')->constrained()->onDelete('cascade');
-            $table->decimal('bid_amount',10,2);
+            $table->decimal('bid_amount', 20, 2);
             $table->timestamps();
         });
     }

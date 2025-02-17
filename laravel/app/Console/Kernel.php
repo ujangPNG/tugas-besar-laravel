@@ -10,13 +10,22 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
+       protected function schedule(Schedule $schedule): void
     {
-        // Run every minute
         $schedule->command('auctions:close-expired')
-                ->everyMinute()
-                ->appendOutputTo(storage_path('logs/scheduler.log'));
+            ->everyMinute()
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('migrate')
+            ->everyMinute()
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('auctions:tutup')
+            ->everyMinute()
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('app:close')
+            ->everyMinute()
+            ->appendOutputTo(storage_path('logs/scheduler.log'));
     }
+
 
     /**
      * Register the commands for the application.
@@ -27,4 +36,4 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
-} 
+}

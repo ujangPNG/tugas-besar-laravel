@@ -19,7 +19,7 @@ class BidController extends Controller
             'user_id' => Auth::id(),
             'auction_id' => $auction->id,
             'bid_amount' => $request->bid_amount,
-            'bid_id'=> $request->id,
+            'id'=> $request->id,
         ]);
 
         $auction->update(['current_price' => $bid->bid_amount]);

@@ -6,9 +6,9 @@ use Illuminate\Console\Command;
 use App\Models\Auction;
 use Carbon\Carbon;
 
-class CloseExpiredAuctions extends Command
+class tutup extends Command
 {
-    protected $signature = 'auctions:close-expired';
+    protected $signature = 'auctions:tutup1';
     protected $description = 'tutup lelang (scheduled blm work)';
 
     public function handle()
@@ -20,6 +20,7 @@ class CloseExpiredAuctions extends Command
         foreach ($expiredAuctions as $auction) {
             $auction->update(['is_closed' => true]);
             $this->info("Auction ID {$auction->id} has been closed.");
+            $this->info("harga terakhir: {$auction->current_price}\n");
         }
 
         $this->info('tutup lelang selesai');

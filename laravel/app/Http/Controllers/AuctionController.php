@@ -46,16 +46,16 @@ class AuctionController extends Controller
 
         Auction::create($data);
 
-        return redirect()->route('auctions.index')->with('success', 'Lelang berhasil dibuat.');
+        return redirect()->route('auctions.index')->with('toast_success', 'Lelang berhasil dibuat.');
     }
     public function closeAuction(Auction $auction)
     {
         if (Auth::id() !== $auction->user_id) {
-            return back()->with('error', 'Anda tidak memiliki izin untuk menutup lelang ini.');
+            return back()->with('toast_error', 'Anda tidak memiliki izin untuk menutup lelang ini.');
         }
 
         $auction->update(['is_closed' => true]);
 
-        return back()->with('success', 'Lelang berhasil ditutup.');
+        return back()->with('toast_success', 'Lelang berhasil ditutup.');
     }
 }

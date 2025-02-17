@@ -109,8 +109,7 @@
                     <div class="mt-2 flex gap-2 justify-center">
                         <p class="text-gray-600 px-2 text-xs">id user: {{ $auction->user_id }}</p>
                         <p class="text-gray-600 px-2 text-xs">id auction: {{ $auction->id }}</p>
-                        <p class="text-gray-600 px-2 text-xs">id bid: {{ $bid->bid_id }}</p>
-                        <p class="text-gray-600 px-2 text-xs">is_closed: {{ $auction->is_closed }}</p>
+                        <p class="text-gray-600 px-2 text-xs">is closed: {{ $auction->is_closed ? 'true' : 'false' }}</p>
                         <p class="text-gray-600 px-2 text-xs">image: {{ $auction->image_path ? 'true' : 'false' }}</p>
                     </div>
                 </div>

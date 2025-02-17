@@ -6,11 +6,25 @@ use Illuminate\Console\Command;
 use App\Models\Auction;
 use Carbon\Carbon;
 
-class CloseExpiredAuctions extends Command
+class close extends Command
 {
-    protected $signature = 'auctions:close-expired';
-    protected $description = 'tutup lelang (scheduled blm work)';
+    /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'app:close';
 
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Command description';
+
+    /**
+     * Execute the console command.
+     */
     public function handle()
     {
         $expiredAuctions = Auction::where('end_date', '<=', Carbon::now())
@@ -24,4 +38,4 @@ class CloseExpiredAuctions extends Command
 
         $this->info('tutup lelang selesai');
     }
-} 
+}

@@ -10,7 +10,7 @@ class Bid extends Model
         'user_id',
         'auction_id',
         'bid_amount',
-        'bid_id'
+        'id'
     ];
 
     public function user()

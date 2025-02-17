@@ -108,3 +108,15 @@
         </div>
     </div>
 </nav>
+
+@if(session('toast_success'))
+    <script>
+        sessionStorage.setItem('toast_success', "{{ session('toast_success') }}");
+    </script>
+@endif
+
+@if(session('toast_error'))
+    <script>
+        sessionStorage.setItem('toast_error', "{{ session('toast_error') }}");
+    </script>
+@endif

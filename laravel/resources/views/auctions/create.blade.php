@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <h2 class="text-2xl font-bold text-green-600 mb-4">Buat Lelang Baru</h2>
     
-    <form action="{{ route('auctions.store') }}" method="POST" class="max-w-md space-y-4" enctype="multipart/form-data">
+    <form id="createAuctionForm" action="{{ route('auctions.store') }}" method="POST" class="max-w-md space-y-4" enctype="multipart/form-data">
         @csrf
         
         <div>
@@ -57,7 +57,7 @@
         </div>
 
         <div>
-            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <button type="submit" id="createAuctionButton" onclick='berhasil()' class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                 Buat Lelang
             </button>
             <a href="{{ route('auctions.index') }}" class="ml-2 inline-block bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
@@ -76,4 +76,5 @@
         </div>
     @endif
 </div>
+<script src="{{ asset('resources/js/script.js') }}"></script>
 @endsection

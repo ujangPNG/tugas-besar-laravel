@@ -9,11 +9,76 @@ use Illuminate\Support\Facades\Storage;
 
 class AuctionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $auctions = Auction::orderBy('id', 'desc')->get(); // Ambil data dengan urutan terbaru
+        $query = Auction::query();
+
+        // Search filter
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('id', 'like', "%{$search}%");
+            });
+        }
+
+        // Date sorting
+        if ($request->has('date_sort')) {
+            switch ($request->date_sort) {
+                case 'created_asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'ending_soon':
+                    $query->orderBy('end_date', 'desc');
+                    break;
+            }
+        }
+        // sort ketersediaan
+        if ($request->has('is_closed')) {
+            switch ($request->is_closed) {
+                case 'tersedia':
+                    $query->where('is_closed', '0');
+                    break;
+                case 'berakhir':
+                    $query->where('is_closed', '1');
+                    break;
+            }
+        }
+        // sort gambar
+        if ($request->has('image_path')) {
+            switch ($request->image_path) {
+                case 'ada':
+                    $query->whereNotNull('image_path',);
+                    break;
+                case 'tidak':
+                    $query->whereNull('image_path');
+                    break;
+            }
+        }
+        // Price sorting
+        if ($request->has('price_sort')) {
+            switch ($request->price_sort) {
+                case 'price_asc':
+                    $query->orderBy('current_price', 'asc');
+                    break;
+                    case 'price_desc':
+                        $query->orderBy('current_price', 'desc');
+                        break;
+                    }
+                }
+                
+                // Default sorting if no filters applied
+                if (!$request->has('date_sort') && !$request->has('price_sort')) {
+            $query->orderBy('id', 'desc');
+        }
+
+        $auctions = $query->get();
         return view('auctions.index', compact('auctions'));
     }
+
     public function create()
     {
         return view('auctions.create');

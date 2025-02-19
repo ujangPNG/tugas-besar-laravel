@@ -33,7 +33,7 @@
 ```bash
 cd ./laravel
 ```
-
+![4CD](gambar/cd%20laravel.png)
 ---
 
 ## ⚙️ **Install Dependensi Project**

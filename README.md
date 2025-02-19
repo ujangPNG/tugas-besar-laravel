@@ -16,9 +16,12 @@ https://docs.google.com/document/d/1aLKvt86dR3p5bM2XWRmHSLlpqwGogH1KxHwkr3pRJCk/
   ![Logo](gambar/cd%20laravel.png)    
   7. buka xampp, lalu start apache dan mysql  
   ![Logo](gambar/xampp.png)    
-  8. di cmd 1, ketik     php artisan migrate     untuk memasak database
+  8. di cmd 1, ketik ```php artisan migrate``` untuk memasak database
   9. di cmd 2, ketik ```npm run dev``` untuk memasak javascript  
   10. di cmd 3, ketik ```php artisan serve``` untuk memulai server. server lokal bisa akses <a href="http://127.0.0.1:8000/">disini</a>.  
-  sebelum mulai, bisa register krn ini database lokal, jadi ga ada built in accountnya
-udah itu aja  
-bonus fungsi : ```!= $auction->user_id``` biar yg punya item ga bisa nambahin bid
+  
+  
+sebelum mulai, bisa register krn ini database lokal, jadi ga ada built in accountnya  
+  
+## Footer  
+```!= $auction->user_id``` biar yg punya item ga bisa nambahin bid

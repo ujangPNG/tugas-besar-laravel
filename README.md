@@ -10,7 +10,7 @@ https://docs.google.com/document/d/1aLKvt86dR3p5bM2XWRmHSLlpqwGogH1KxHwkr3pRJCk/
   4. extrak project ini di mana aja terserah, kemudian buka folder project ini. di bawah ini terkhusus buat yang ga ngerti cara pake terminal  
   ![Logo](gambar/folder.png)  
   5. buka cmd 3x di direktory project ini  
-  ![Logo](gambar/cmd.png)<i>cara cepat membuka cmd</i>  
+  ![Logo](gambar/cmd.png)<i style="font-size:20px;">      cara cepat membuka cmd</i>  
   ![Logo](gambar/3%20cmd.png)  
   6. di semua cmd, ketik ```cd ./laravel```  
   ![Logo](gambar/cd%20laravel.png)  

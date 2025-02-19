@@ -5,22 +5,30 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
+                    @auth
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
+                    @else
+                    <a href="{{ url('/') }}">
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    </a>
+                    @endauth
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="url('/')" :active="request()->routeIs('welcome')">
-                        {{ __('Welcome') }}
+                        {{ __('Home') }}
                     </x-nav-link>
                 </div>
+                @auth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @endauth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('auctions.index')" :active="request()->routeIs('auctions.index')">
                         {{ __('Auction') }}
@@ -36,7 +44,7 @@
                         @auth    
                         <div>{{ Auth::user()->name }}</div>
                         @else
-                        <div>Guest</div>
+                        <div>Login atau Register</div>
                         @endauth
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -48,14 +56,14 @@
 
                     <x-slot name="content">
                         @auth
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                        <x-dropdown-link :href="route('dashboard')">
+                            {{ __('Dashboard') }}
                         </x-dropdown-link>
                         <x-dropdown-link :href="route('auctions.index')">
                             {{ __('Lelang') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('dashboard')">
-                            {{ __('Dashboard') }}
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
                         </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -95,8 +103,14 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="url('/')" :active="request()->routeIs('welcome')">
+                {{ __('Home') }}
+            </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('auctions.index')" :active="request()->routeIs('auctions.index')">
+                {{ __('Lelang') }}
             </x-responsive-nav-link>
         </div>
 

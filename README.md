@@ -20,12 +20,15 @@ https://docs.google.com/document/d/1aLKvt86dR3p5bM2XWRmHSLlpqwGogH1KxHwkr3pRJCk/
   ![Logo](gambar/composer.jpg)    
   11. buka xampp, lalu start apache dan mysql  
   ![Logo](gambar/xampp.png)    
-  12. di cmd 1, ketik ```php artisan migrate``` untuk memasak database
-  13. di cmd 2, ketik ```npm install``` lalu ```npm run dev``` untuk memasak javascript  
-  14. di cmd 3, ketik ```php artisan serve``` untuk memulai server. server lokal bisa akses <a href="http://127.0.0.1:8000/">disini</a>.  
+  12. masukan file .env dari folder awal ke dalam folder laravel
+  ![Logo](gambar/moveenv.png)
+  12. di cmd 1, ketik ```php artisan migrate``` buat masak database
+  13. di cmd 1, ketik ```php artisan storage:link``` buat link database (untuk gambar)
+  14. di cmd 2, ketik ```npm install``` lalu ```npm run dev``` buat masak javascript  
+  15. di cmd 3, ketik ```php artisan serve``` untuk memulai server. server lokal bisa akses <a href="http://127.0.0.1:8000/">disini</a>.  
   
   
-sebelum mulai, bisa register krn ini database lokal, jadi ga ada built in accountnya  
+sebelum mulai, bisa register krn ini database lokal, ga ada built in account soalnya  
   
 ## Footer  
 ```!= $auction->user_id``` biar yg punya item ga bisa nambahin bid

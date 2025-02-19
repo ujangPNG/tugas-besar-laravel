@@ -1,34 +1,102 @@
-# **Web App Lelang Online**
-## **link laporan**  
-(comment allowed)
-https://docs.google.com/document/d/1aLKvt86dR3p5bM2XWRmHSLlpqwGogH1KxHwkr3pRJCk/edit?usp=sharing  
-  
-## **Tutorial**  
-  1. install <a href="https://nodejs.org/dist/v22.14.0/node-v22.14.0-x64.msi">nodejs</a>  
-  2. install <a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.0.30/xampp-windows-x64-8.0.30-0-VS16-installer.exe">xampp</a>  
-  3. install <a href="https://github.com/ujangPNG/tugas-besar-laravel/archive/refs/heads/master.zip/">project ini</a> (zip)  
-  4. install <a href="https://getcomposer.org/Composer-Setup.exe">composer</a>
-  6. setelah donlot semua, buka lalu setup. spam klik next aja
-  7. extrak project ini di mana aja terserah, kemudian buka folder project ini. di bawah ini terkhusus buat yang ga ngerti cara pake terminal  
-  ![Logo](gambar/folder.png)    
-  8. buka cmd 3x di direktory project ini  
-  ![Logo](gambar/cmd.png)<i style="font-size:10px;">cara cepat membuka cmd</i>  
-  ![Logo](gambar/3%20cmd.png)    
-  9. di semua cmd, ketik ```cd ./laravel```  
-  ![Logo](gambar/cd%20laravel.png)    
-  10. ketik ```composer install``` di salah satu cmd (pastikan direktory sudah di /laravel)
-  ![Logo](gambar/composer.jpg)    
-  11. buka xampp, lalu start apache dan mysql  
-  ![Logo](gambar/xampp.png)    
-  12. masukan file .env dari folder awal ke dalam folder laravel
-  ![Logo](gambar/moveenv.png)
-  12. di cmd 1, ketik ```php artisan migrate``` buat masak database
-  13. di cmd 1, ketik ```php artisan storage:link``` buat link database (untuk gambar)
-  14. di cmd 2, ketik ```npm install``` lalu ```npm run dev``` buat masak javascript  
-  15. di cmd 3, ketik ```php artisan serve``` untuk memulai server. server lokal bisa akses <a href="http://127.0.0.1:8000/">disini</a>.  
-  
-  
-sebelum mulai, bisa register krn ini database lokal, ga ada built in account soalnya  
-  
-## Footer  
-```!= $auction->user_id``` biar yg punya item ga bisa nambahin bid
+# 🌐 **Web App Lelang Online**
+
+## **Link Laporan**  
+(comment allowed)  
+[Klik di sini untuk melihat laporan proyek](https://docs.google.com/document/d/1aLKvt86dR3p5bM2XWRmHSLlpqwGogH1KxHwkr3pRJCk/edit?usp=sharing)
+
+---
+
+## 🚀 **Tutorial**
+
+1. **Install Node.js:** [Download Node.js](https://nodejs.org/dist/v22.14.0/node-v22.14.0-x64.msi)  
+2. **Install XAMPP:** [Download XAMPP](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/8.0.30/xampp-windows-x64-8.0.30-0-VS16-installer.exe)  
+3. **Install Composer:** [Download Composer](https://getcomposer.org/Composer-Setup.exe)  
+4. **Install Project Ini:** [Download Project (ZIP)](https://github.com/ujangPNG/tugas-besar-laravel/archive/refs/heads/master.zip)  
+5. **Setup Semua Aplikasi:** Jalankan installer dan ikuti instruksi (spam klik "Next" aja 😹)  
+
+---
+
+## 📂 **Persiapan Project**
+
+1. **Ekstrak Project:** Ekstrak file zip project di lokasi yang kamu inginkan.  
+2. **Buka Folder Project:** Arahkan ke folder project ini.  
+3. **Buka CMD 3x di Direktori Project:** Klik kanan di folder project > pilih "Open in Terminal" atau gunakan cara cepat di bawah ini:  
+
+![Logo](gambar/folder.png)  
+
+![Cara Membuka CMD](gambar/cmd.png)  
+<i style="font-size:10px;">cara cepat membuka cmd</i>  
+
+![3 CMD](gambar/3%20cmd.png)  
+
+4. **Arahkan CMD ke Folder Laravel:**
+```bash
+cd ./laravel
+```
+
+---
+
+## ⚙️ **Install Dependensi Project**
+
+1. **Install Composer:**
+```bash
+composer install
+```
+Pastikan direktori sudah di `/laravel`
+
+2. **Jalankan XAMPP:** Start **Apache** dan **MySQL**
+
+![XAMPP](gambar/xampp.png)  
+
+3. **Pindahkan File `.env`:** Pindahkan `.env` dari folder awal ke dalam folder `laravel`
+
+![Pindah File .env](gambar/moveenv.png)
+
+---
+
+## 🔧 **Setup Database & Storage**
+
+1. **Migrasi Database:**
+```bash
+php artisan migrate
+```
+
+2. **Buat Link Storage:**
+```bash
+php artisan storage:link
+```
+Untuk memastikan gambar dapat tersimpan dengan benar
+
+---
+
+## 🎨 **Setup Frontend & Server**
+
+1. **Install & Jalankan NPM:**
+```bash
+npm install
+npm run dev
+```
+
+2. **Jalankan Server Laravel:**
+```bash
+php artisan serve
+```
+Akses aplikasi di: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+---
+
+## 📝 **Sebelum Memulai**
+Silakan **register** terlebih dahulu, karena database ini lokal dan belum ada akun bawaan.
+
+---
+
+## 💡 **Footer sisaan**
+```php
+!= $auction->user_id
+```
+- Menghindari agar pemilik item tidak bisa menambahkan bid pada lelangnya sendiri.
+
+---
+
+🎉 **Selamat mencoba! Semoga proyekmu sukses!** 🚀
+

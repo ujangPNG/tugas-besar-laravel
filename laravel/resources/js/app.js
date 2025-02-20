@@ -36,6 +36,22 @@ if (sessionStorage.getItem('toast_error')) {
     });
     sessionStorage.removeItem('toast_error');
 }
+function berhasil() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: 'Data berhasil disimpan',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('submitbid').submit();
+        }
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('createAuctionButton').addEventListener('click', confirmSubmit);
+});
 
 window.Alpine = Alpine;
 

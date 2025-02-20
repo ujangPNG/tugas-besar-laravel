@@ -19,7 +19,10 @@
         <form action="{{ route('auctions.index') }}" method="GET" class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="flex flex-col">
                 <label class="text-gray-300 mb-1">Search</label>
-                <input type="text" name="search" value="{{ request('search') }}" 
+                <input 
+                type="text" 
+                name="search" 
+                value="{{ request('search')=='no_desc' ? '' : request('search') }}" 
                        placeholder="cari bedasarkan nama atau id" 
                        class="rounded border-gray-300 dark:bg-gray-700 dark:text-gray-300">
             </div>
@@ -57,14 +60,27 @@
                     <option value="tidak" {{ request('image_path') == 'tidak' ? 'selected' : '' }}>Tidak memiliki gambar</option>
                 </select>
             </div>
-
-            <div class="md:col-span-5 flex justify-end">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Apply Filters
-                </button>
-                <a href="{{ route('auctions.index') }}" class="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                    Clear Filters
-                </a>
+            <div class="md:col-span-5 flex justify-between items-center">
+                <!-- Left side checkboxes -->
+                <div class="flex gap-4">
+                    <label class="flex items-center text-gray-300">
+                        <input type="checkbox" 
+                            name="include_description" 
+                            {{ request('include_description') ? 'checked' : '' }}
+                            class="form-checkbox h-4 w-4 text-blue-600 rounded border-gray-300 dark:border-gray-700">
+                        <span class="ml-2">Cari deskripsi juga</span>
+                    </label>
+                </div>
+                
+                <!-- Right side buttons (existing) -->
+                <div class="flex">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Apply Filters
+                    </button>
+                    <a href="{{ route('auctions.index') }}" class="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                        Clear Filters
+                    </a>
+                </div>
             </div>
         </form>
     </div>
@@ -79,7 +95,7 @@
                             <h3 class="text-xl font-bold text-white">{{ $auction->title }}</h3>
                             <p class="text-gray-200">Deskripsi Item: {{ $auction->description }}</p>
                             <p class="text-gray-400">Pemilik lelang: <b>{{$auction->user->name}}</b></p>
-                            <p class="text-green-600 font-semibold">Harga Saat Ini: Rp{{ number_format($auction->current_price, 2) }}</p>
+                            <p class="text-green-600 font-semibold">Harga Saat Ini: Rp{{ number_format($auction->current_price) }}</p>
                             <p class="text-green-400">Harga awal: Rp{{number_format($auction->starting_price)}}</p>
                             <p class="text-gray-600">Dimulai pada: {{ $auction->created_at }}</p>
                             <p class="text-gray-600">Berakhir pada: {{ $auction->end_date }}</p>
@@ -98,17 +114,20 @@
                             @endif
 
                             @if (!$auction->is_closed && Auth::id())
-                                <form action="{{ route('bids.store', $auction->id) }}" method="POST" class="mt-2 flex gap-2">
-                                    @csrf
-                                    <input type="number" 
-                                           name="bid_amount" 
-                                           min="{{ $auction->current_price + 1 }}" 
-                                           required
-                                           class="border rounded px-2 py-1">
-                                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
-                                        Ajukan Penawaran
-                                    </button>
-                                </form>
+                            <form id="bidForm" action="{{ route('bids.store', $auction->id) }}" method="POST" class="mt-2 flex gap-2">
+                                @csrf
+                                <input type="number" 
+                                    name="bid_amount" 
+                                    min="{{ $auction->current_price + 1 }}" 
+                                    required
+                                    class="border rounded px-2 py-1">
+                                
+                                <button type="button" onclick="confirmBid(this.form, {{ $auction->current_price }})" 
+                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">
+                                    Ajukan Penawaran
+                                </button>
+                            </form>
+
                             @endif
                         </div>
                         <!-- Center - Bid History -->
@@ -207,5 +226,28 @@
     function closeImageModal() {
         document.getElementById('imageModal').classList.add('hidden');
     }
+
+    function confirmBid(form, currentPrice) {
+    var bidInput = form.querySelector('input[name="bid_amount"]');
+    var bidValue = parseFloat(bidInput.value);
+
+    if (isNaN(bidValue) || bidValue <= currentPrice) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: 'Bid harus lebih tinggi dari Rp' + currentPrice
+        });
+    } else {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'Penawaran berhasil diajukan!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    }
+}
 </script>
 @endsection

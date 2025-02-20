@@ -97,6 +97,3 @@ Silakan **register** terlebih dahulu, karena database ini lokal dan belum ada ak
 - Menghindari agar pemilik item tidak bisa menambahkan bid pada lelangnya sendiri.
 
 ---
-
-🎉 **Selamat mencoba! Semoga proyekmu sukses!** 🚀
-

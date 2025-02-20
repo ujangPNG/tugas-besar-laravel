@@ -14,11 +14,14 @@ class AuctionController extends Controller
         $query = Auction::query();
 
         // Search filter
-        if ($request->has('search')) {
+        if ($request->filled('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('id', 'like', "%{$search}%");
+            $query->where(function($q) use ($search, $request) {
+                $q->where('title', 'like', "%{$search}%");
+                
+                if ($request->has('include_description')) {
+                    $q->orWhere('description', 'like', "%{$search}%");
+                }
             });
         }
 
@@ -32,47 +35,49 @@ class AuctionController extends Controller
                     $query->orderBy('created_at', 'desc');
                     break;
                 case 'ending_soon':
-                    $query->orderBy('end_date', 'desc');
+                    $query->orderBy('end_date', 'asc'); // Changed to asc for ending soon
                     break;
             }
         }
-        // sort ketersediaan
+
+        // Price sorting - Fixed implementation
+        if ($request->has('price_sort')) {
+            switch ($request->price_sort) {
+                case 'price_asc':
+                    $query->orderBy('current_price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('current_price', 'desc');
+                    break;
+            }
+        }
+
+        // Availability filter
         if ($request->has('is_closed')) {
             switch ($request->is_closed) {
                 case 'tersedia':
-                    $query->where('is_closed', '0');
+                    $query->where('is_closed', false);
                     break;
                 case 'berakhir':
-                    $query->where('is_closed', '1');
+                    $query->where('is_closed', true);
                     break;
             }
         }
-        // sort gambar
+
+        // Image filter
         if ($request->has('image_path')) {
             switch ($request->image_path) {
                 case 'ada':
-                    $query->whereNotNull('image_path',);
+                    $query->whereNotNull('image_path');
                     break;
                 case 'tidak':
                     $query->whereNull('image_path');
                     break;
             }
         }
-        // Price sorting
-        if ($request->has('price_sort')) {
-            switch ($request->price_sort) {
-                case 'price_asc':
-                    $query->orderBy('current_price', 'asc');
-                    break;
-                    case 'price_desc':
-                        $query->orderBy('current_price', 'desc');
-                        break;
-                    }
-                }
-                
-                // Default sorting if no filters applied
-                if (!$request->has('date_sort') && !$request->has('price_sort')) {
-            $query->orderBy('id', 'desc');
+        // Default sorting if no filters applied
+        if (!$request->has('date_sort') && !$request->has('price_sort') && !$request->has('is_closed') && !$request->has('image_path')){
+            $query->latest('id');
         }
 
         $auctions = $query->get();
@@ -90,7 +95,8 @@ class AuctionController extends Controller
             'description' => 'required|string',
             'starting_price' => 'required|numeric|min:1',
             'end_date' => 'required|date|after:now',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
+            'image_url' => 'nullable|url'
         ]);
 
         $data = [
@@ -102,11 +108,17 @@ class AuctionController extends Controller
             'end_date' => $request->end_date,
         ];
 
-        // Handle image upload if present
+        // Handle image upload or URL
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $path = $image->store('auction-images', 'public');
             $data['image_path'] = $path;
+        } elseif ($request->filled('image_url')) {
+            $imageUrl = $request->image_url;
+            $contents = file_get_contents($imageUrl);
+            $filename = 'auction-images/' . time() . '.jpg';
+            Storage::disk('public')->put($filename, $contents);
+            $data['image_path'] = $filename;
         }
 
         Auction::create($data);

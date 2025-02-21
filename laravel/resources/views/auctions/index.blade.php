@@ -101,7 +101,11 @@
                             <p class="text-gray-600">Berakhir pada: {{ $auction->end_date }}</p>
                             
                             @if($auction->is_closed)
-                                <p class="text-red-500 text-3xl">Lelang telah ditutup</p>
+                                @if($auction->winner_id)
+                                    <p class="text-red-500">Lelang telah ditutup - Dimenangkan oleh: {{ $auction->winner->name }}</p>
+                                @else
+                                    <p class="text-red-500">Lelang dibatalkan - Tidak ada penawar</p>
+                                @endif
                             @endif
 
                             @if (Auth::id() == $auction->user_id && !$auction->is_closed)

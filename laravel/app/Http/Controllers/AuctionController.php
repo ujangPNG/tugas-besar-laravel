@@ -128,11 +128,20 @@ class AuctionController extends Controller
     public function closeAuction(Auction $auction)
     {
         if (Auth::id() !== $auction->user_id) {
-            return back()->with('toast_error', 'Anda tidak memiliki izin untuk menutup lelang ini.');
+            return back()->with('error', 'Unauthorized action.');
         }
 
-        $auction->update(['is_closed' => true]);
+        $highestBid = $auction->getHighestBid();
+        $auction->is_closed = true;
+        
+        if ($highestBid) {
+            $auction->winner_id = $highestBid->user_id;
+        } else {
+            $auction->winner_id = null; // No winner if no bids
+        }
+        
+        $auction->save();
 
-        return back()->with('toast_success', 'Lelang berhasil ditutup.');
+        return back()->with('success', 'Auction has been closed.');
     }
 }

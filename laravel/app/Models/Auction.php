@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-// (!$auction->is_closed && Auth::id() != $auction->user_id)
+
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -15,7 +15,8 @@ class Auction extends Model
         'current_price',
         'end_date',
         'is_closed',
-        'image_path'
+        'image_path',
+        'winner_id'
     ];
 
     // Convert timestamps to local time
@@ -45,5 +46,15 @@ class Auction extends Model
     public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function winner()
+    {
+        return $this->belongsTo(User::class, 'winner_id');
+    }
+
+    public function getHighestBid()
+    {
+        return $this->bids()->orderBy('bid_amount', 'desc')->first();
     }
 }

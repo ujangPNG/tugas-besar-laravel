@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('current_price', 20, 2);
             $table->dateTime('end_date');
             $table->boolean('is_closed')->default(false);
+            $table->foreignId('winner_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

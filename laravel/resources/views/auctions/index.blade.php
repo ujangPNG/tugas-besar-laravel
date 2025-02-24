@@ -1,18 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold text-green-600 mb-4">Daftar Lelang</h2>
-    
-    @auth
-        <a href="{{ route('auctions.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4 inline-block">
-            Buat Lelang Baru
-        </a>
-    @else
-        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 inline-block">
-            <p><a href="{{ route('login') }}" class="underline">login</a> atau <a href="{{ route('register') }}" class="underline">register</a> untuk membuat atau mengikuti penawaran</p>
+<div class="dark:bg-gray-800 shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Lelang') }}
+            </h2>
         </div>
-    @endauth
+    </div>
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-gray-800 flex justify-between items-center p-4 rounded-lg mb-6">
+            <h2 class="text-2xl font-bold text-green-600">Daftar Lelang</h2>
+            @auth
+                <a href="{{ route('auctions.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block">
+                    Buat Lelang Baru
+                </a>
+            @else
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 inline-block">
+                    <p><a href="{{ route('login') }}" class="underline">login</a> atau <a href="{{ route('register') }}" class="underline">register</a> untuk membuat atau mengikuti penawaran</p>
+                </div>
+            @endauth
+        </div>
 
     <!-- Filter Section -->
     <div class="bg-gray-800 p-4 rounded-lg mb-6">
@@ -38,10 +47,12 @@
 
             <div class="flex flex-col">
                 <label class="text-gray-300 mb-1">Filter harga</label>
-                <select name="price_sort" class="rounded border-gray-300 dark:bg-gray-700 dark:text-gray-300">
-                    <option value="">Select Order</option>
-                    <option value="price_asc" {{ request('price_sort') == 'price_asc' ? 'selected' : '' }}>Harga terendah</option>
-                    <option value="price_desc" {{ request('price_sort') == 'price_desc' ? 'selected' : '' }}>Harga tertinggi</option>
+                <select name="filter_harga" class="rounded border-gray-300 dark:bg-gray-700 dark:text-gray-300">
+                    <option value="">none</option>
+                    <option value="murah" {{ request('filter_harga') == 'murah' ? 'selected' : '' }}>Harga baru terendah</option>
+                    <option value="mahal" {{ request('filter_harga') == 'mahal' ? 'selected' : '' }}>Harga baru tertinggi</option>
+                    <option value="MURAH" {{ request('filter_harga') == 'MURAH' ? 'selected' : '' }}>Harga awal terendah</option>
+                    <option value="MAHAL" {{ request('filter_harga') == 'MAHAL' ? 'selected' : '' }}>Harga awal tertinggi</option>
                 </select>
             </div>
             <div class="flex flex-col">
@@ -102,7 +113,7 @@
                             
                             @if($auction->is_closed)
                                 @if($auction->winner_id)
-                                    <p class="text-red-500">Lelang telah ditutup - Dimenangkan oleh: {{ $auction->winner->name }}</p>
+                                    <p class="text-green-500">Lelang telah ditutup - Dimenangkan oleh: {{ $auction->winner->name }}</p>
                                 @else
                                     <p class="text-red-500">Lelang dibatalkan - Tidak ada penawar</p>
                                 @endif

@@ -39,15 +39,21 @@ class AuctionController extends Controller
                     break;
             }
         }
-
-        // Price sorting - Fixed implementation
-        if ($request->has('price_sort')) {
-            switch ($request->price_sort) {
-                case 'price_asc':
+        // HARGA AWAL
+        // Price sorting - Fixed implementation HARGA BARU
+        if ($request->has('filter_harga')) {
+            switch ($request->filter_harga) {
+                case 'murah':
                     $query->orderBy('current_price', 'asc');
                     break;
-                case 'price_desc':
+                 case 'mahal':
                     $query->orderBy('current_price', 'desc');
+                    break;
+                case 'MURAH':
+                    $query->orderBy('starting_price', 'asc');  
+                    break;
+                case 'MAHAL':
+                    $query->orderBy('starting_price', 'desc');
                     break;
             }
         }
@@ -76,7 +82,7 @@ class AuctionController extends Controller
             }
         }
         // Default sorting if no filters applied
-        if (!$request->has('date_sort') && !$request->has('price_sort') && !$request->has('is_closed') && !$request->has('image_path')){
+        if (!$request->has('date_sort') && !$request->has('filter_harga') && !$request->has('is_closed') && !$request->has('image_path')){
             $query->latest('id');
         }
 

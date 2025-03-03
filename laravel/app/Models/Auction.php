@@ -57,4 +57,24 @@ class Auction extends Model
     {
         return $this->bids()->orderBy('bid_amount', 'desc')->first();
     }
+
+    public function closeAuctionIfExpired()
+    {
+        if (!$this->is_closed && Carbon::now() > $this->end_date) {
+            $this->close();
+        }
+    }
+
+    public function close()
+    {
+        if ($this->is_closed) {
+            return;
+        }
+
+        $highestBid = $this->bids()->orderBy('bid_amount', 'desc')->first();
+        
+        $this->is_closed = true;
+        $this->winner_id = $highestBid ? $highestBid->user_id : null;
+        $this->save();
+    }
 }

@@ -81,7 +81,7 @@
                                  alt="Preview" 
                                  class="max-h-96 mx-auto rounded-lg shadow">
                         </div>
-                        
+        
                         <p class="text-gray-600">
                             Drop gambar atau URL gambar disini<br>
                             atau <span class="text-blue-500 cursor-pointer" onclick="document.getElementById('image').click()">pilih file</span>
@@ -126,20 +126,25 @@ dropZone.addEventListener('drop', function(e) {
     const dt = e.dataTransfer;
     const items = dt.items;
 
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].type.indexOf('image') !== -1) {
-            // If it's a file
-            const file = items[i].getAsFile();
+    if (dt.files && dt.files[0]) {
+        const file = dt.files[0];
+        if (file.type.startsWith('image/')) {
             handleFile(file);
-            return;
-        } else if (items[i].type === 'text/uri-list') {
-            // If it's a URL
-            items[i].getAsString(url => {
-                if (isImageUrl(url)) {
-                    handleImageUrl(url);
-                }
-            });
-            return;
+            // Update the file input with the dropped file
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+        }
+    } else {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type === 'text/uri-list') {
+                items[i].getAsString(url => {
+                    if (isImageUrl(url)) {
+                        handleImageUrl(url);
+                    }
+                });
+                return;
+            }
         }
     }
 });
@@ -152,6 +157,11 @@ fileInput.addEventListener('change', function() {
 });
 
 function handleFile(file) {
+    if (!file.type.startsWith('image/')) {
+        alert('Please upload only image files.');
+        return;
+    }
+    
     const reader = new FileReader();
     reader.onload = function(e) {
         previewImage.src = e.target.result;

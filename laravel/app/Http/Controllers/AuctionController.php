@@ -25,20 +25,6 @@ class AuctionController extends Controller
             });
         }
 
-        // Date sorting
-        if ($request->has('date_sort')) {
-            switch ($request->date_sort) {
-                case 'created_asc':
-                    $query->orderBy('created_at', 'asc');
-                    break;
-                case 'created_desc':
-                    $query->orderBy('created_at', 'desc');
-                    break;
-                case 'ending_soon':
-                    $query->orderBy('end_date', 'asc'); // Changed to asc for ending soon
-                    break;
-            }
-        }
         // HARGA AWAL
         // Price sorting - Fixed implementation HARGA BARU
         if ($request->has('filter_harga')) {
@@ -54,6 +40,20 @@ class AuctionController extends Controller
                     break;
                 case 'MAHAL':
                     $query->orderBy('starting_price', 'desc');
+                    break;
+            }
+        }
+        // Date sorting
+        if ($request->has('date_sort')) {
+            switch ($request->date_sort) {
+                case 'created_asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'created_desc':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'ending_soon':
+                    orderBy('end_date', 'asc'); // Pastikan lelang belum ditutup
                     break;
             }
         }
@@ -84,6 +84,11 @@ class AuctionController extends Controller
         // Default sorting if no filters applied
         if (!$request->has('date_sort') && !$request->has('filter_harga') && !$request->has('is_closed') && !$request->has('image_path')){
             $query->latest('id');
+        }
+        if ($request->has('filter_harga')) {
+            $column = in_array($request->filter_harga, ['MURAH', 'MAHAL']) ? 'starting_price' : 'current_price';
+            $direction = in_array($request->filter_harga, ['murah', 'MURAH']) ? 'asc' : 'desc';
+            $query->orderBy($column, $direction);
         }
 
         $auctions = $query->get();
@@ -137,17 +142,8 @@ class AuctionController extends Controller
             return back()->with('error', 'Unauthorized action.');
         }
 
-        $highestBid = $auction->getHighestBid();
-        $auction->is_closed = true;
+        $auction->close();
         
-        if ($highestBid) {
-            $auction->winner_id = $highestBid->user_id;
-        } else {
-            $auction->winner_id = null; // No winner if no bids
-        }
-        
-        $auction->save();
-
-        return back()->with('success', 'Auction has been closed.');
+        return back()->with('success', 'Auction has been closed and winner has been recorded.');
     }
 }

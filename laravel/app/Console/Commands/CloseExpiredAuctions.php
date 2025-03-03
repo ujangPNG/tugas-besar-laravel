@@ -9,19 +9,18 @@ use Carbon\Carbon;
 class CloseExpiredAuctions extends Command
 {
     protected $signature = 'auctions:close-expired';
-    protected $description = 'tutup lelang (scheduled blm work)';
+    protected $description = 'Close all expired auctions and set winners';
 
     public function handle()
     {
-        $expiredAuctions = Auction::where('end_date', '<=', Carbon::now())
-            ->where('is_closed', false)
+        $expiredAuctions = Auction::where('is_closed', false)
+            ->where('end_date', '<=', Carbon::now())
             ->get();
 
         foreach ($expiredAuctions as $auction) {
-            $auction->update(['is_closed' => true]);
-            $this->info("Auction ID {$auction->id} has been closed.");
+            $auction->close();
         }
 
-        $this->info('tutup lelang selesai');
+        $this->info(count($expiredAuctions) . ' auctions have been closed.');
     }
-} 
+}

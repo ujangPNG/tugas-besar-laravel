@@ -36,7 +36,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <h2 class="text-xl font-bold mb-4">Lelang Yang Kamu Menangkan</h2>
+                    <h2 class="text-xl text-gray-100 font-bold mb-4">Lelang Yang Kamu Menangkan</h2>
                     @php
                         $wonAuctions = \App\Models\Auction::where('winner_id', Auth::id())->get();
                     @endphp
@@ -45,14 +45,15 @@
                         <div class="space-y-4">
                             @foreach($wonAuctions as $auction)
                                 <div class="border p-4 rounded-lg">
-                                    <h3 class="font-bold">{{ $auction->title }}</h3>
-                                    <p>Harga Akhir: Rp{{ number_format($auction->current_price) }}</p>
-                                    <p>Pemilik: {{ $auction->user->name }}</p>
+                                    <h3 class="font-bold text-gray-200">{{ $auction->title }}</h3>
+                                    <p class="text-gray-200">Harga Akhir: Rp{{ number_format($auction->current_price) }}</p>
+                                    <p class="text-gray-200">Deskripsi item: {{ $auction->description }}</p>
+                                    <p class="text-gray-200">Pemilik: {{ $auction->user->name }}</p>
                                 </div>
                             @endforeach
                         </div>
                     @else
-                        <p>Kamu belum memenangkan lelang apapun.</p>
+                        <p class="text-gray-400">Kamu belum memenangkan lelang apapun.</p>
                     @endif
                 </div>
             </div>

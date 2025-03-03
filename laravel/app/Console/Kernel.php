@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('app:close')
             ->everyMinute()
             ->appendOutputTo(storage_path('logs/scheduler.log'));
+        $schedule->command('auctions:close-expired')->everyMinute();
     }
 
 

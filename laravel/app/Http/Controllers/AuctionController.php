@@ -25,70 +25,74 @@ class AuctionController extends Controller
             });
         }
 
-        // HARGA AWAL
-        // Price sorting - Fixed implementation HARGA BARU
-        if ($request->has('filter_harga')) {
-            switch ($request->filter_harga) {
-                case 'murah':
-                    $query->orderBy('current_price', 'asc');
-                    break;
-                 case 'mahal':
-                    $query->orderBy('current_price', 'desc');
-                    break;
-                case 'MURAH':
-                    $query->orderBy('starting_price', 'asc');  
-                    break;
-                case 'MAHAL':
-                    $query->orderBy('starting_price', 'desc');
-                    break;
-            }
-        }
-        // Date sorting
-        if ($request->has('date_sort')) {
-            switch ($request->date_sort) {
-                case 'created_asc':
-                    $query->orderBy('created_at', 'asc');
-                    break;
-                case 'created_desc':
-                    $query->orderBy('created_at', 'desc');
-                    break;
-                case 'ending_soon':
-                    orderBy('end_date', 'asc'); // Pastikan lelang belum ditutup
-                    break;
-            }
-        }
+        // Check if any filter is applied
+        $hasFilters = $request->has('filter_harga') || 
+                     $request->has('date_sort') || 
+                     $request->has('is_closed') || 
+                     $request->has('image_path');
 
-        // Availability filter
-        if ($request->has('is_closed')) {
-            switch ($request->is_closed) {
-                case 'tersedia':
-                    $query->where('is_closed', false);
-                    break;
-                case 'berakhir':
-                    $query->where('is_closed', true);
-                    break;
+        // Apply filters only if they are present
+        if ($hasFilters) {
+            // Price sorting
+            if ($request->has('filter_harga')) {
+                switch ($request->filter_harga) {
+                    case 'murah':
+                        $query->orderBy('current_price', 'asc');
+                        break;
+                    case 'mahal':
+                        $query->orderBy('current_price', 'desc');
+                        break;
+                    case 'MURAH':
+                        $query->orderBy('starting_price', 'asc');
+                        break;
+                    case 'MAHAL':
+                        $query->orderBy('starting_price', 'desc');
+                        break;
+                }
             }
-        }
 
-        // Image filter
-        if ($request->has('image_path')) {
-            switch ($request->image_path) {
-                case 'ada':
-                    $query->whereNotNull('image_path');
-                    break;
-                case 'tidak':
-                    $query->whereNull('image_path');
-                    break;
+            // Date sorting
+            if ($request->has('date_sort')) {
+                switch ($request->date_sort) {
+                    case 'created_asc':
+                        $query->orderBy('created_at', 'asc');
+                        break;
+                    case 'created_desc':
+                        $query->orderBy('created_at', 'desc');
+                        break;
+                    case 'ending_soon':
+                        $query->orderBy('end_date', 'asc')
+                              ->where('is_closed', false);
+                        break;
+                }
             }
-        }
-        // Default sorting if no filters applied
-        if (!$request->has('date_sort') && !$request->has('filter_harga') && !$request->has('is_closed') && !$request->has('image_path')){
+
+            // Availability filter
+            if ($request->has('is_closed')) {
+                switch ($request->is_closed) {
+                    case 'tersedia':
+                        $query->where('is_closed', false);
+                        break;
+                    case 'berakhir':
+                        $query->where('is_closed', true);
+                        break;
+                }
+            }
+
+            // Image filter
+            if ($request->has('image_path')) {
+                switch ($request->image_path) {
+                    case 'ada':
+                        $query->whereNotNull('image_path');
+                        break;
+                    case 'tidak':
+                        $query->whereNull('image_path');
+                        break;
+                }
+            }
+        } else {
+            // Default sorting when no filters are applied
             $query->latest('id');
-        }
-        if ($request->has('filter_harga')) {
-            $column = in_array($request->filter_harga, ['MURAH', 'MAHAL']) ? 'starting_price' : 'current_price';
-            $direction = in_array($request->filter_harga, ['murah', 'MURAH']) ? 'asc' : 'desc';
-            $query->orderBy($column, $direction);
         }
 
         $auctions = $query->get();

@@ -12,19 +12,13 @@ class Kernel extends ConsoleKernel
      */
        protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('auctions:close-expired')
-            ->everyMinute()
-            ->appendOutputTo(storage_path('logs/scheduler.log'));
         $schedule->command('migrate')
             ->everyMinute()
             ->appendOutputTo(storage_path('logs/scheduler.log'));
         $schedule->command('auctions:tutup')
             ->everyMinute()
             ->appendOutputTo(storage_path('logs/scheduler.log'));
-        $schedule->command('app:close')
-            ->everyMinute()
-            ->appendOutputTo(storage_path('logs/scheduler.log'));
-        $schedule->command('auctions:close-expired')->everyMinute();
+        
     }
 
 

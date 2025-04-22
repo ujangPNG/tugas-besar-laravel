@@ -93,7 +93,7 @@
                     <!-- Right side buttons (existing) -->
                     <div class="flex">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Terapkan!
+                            Apply!
                         </button>
                         <a href="{{ route('auctions.index') }}" class="ml-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                             Clear

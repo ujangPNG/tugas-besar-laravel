@@ -8,7 +8,7 @@ use Carbon\Carbon;
 
 class tutup extends Command
 {
-    protected $signature = 'auctions:tutup1';
+    protected $signature = 'auctions:tutup';
     protected $description = 'tutup lelang (scheduled blm work)';
 
     public function handle()

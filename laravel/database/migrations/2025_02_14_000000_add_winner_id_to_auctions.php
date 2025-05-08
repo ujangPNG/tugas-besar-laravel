@@ -6,13 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::table('auctions', function (Blueprint $table) {
-            $table->foreignId('winner_id')->nullable()->constrained('users')->nullOnDelete();
-        });
+        // Check if winner_id column already exists
+        if (!Schema::hasColumn('auctions', 'winner_id')) {
+            Schema::table('auctions', function (Blueprint $table) {
+                $table->foreignId('winner_id')->nullable()->constrained('users')->nullOnDelete();
+            });
+        }
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('auctions', function (Blueprint $table) {

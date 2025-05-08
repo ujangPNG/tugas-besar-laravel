@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class Auction extends Model
 {
@@ -65,16 +67,64 @@ class Auction extends Model
         }
     }
 
+    /**
+     * Close the auction and record the winner if there's a highest bid
+     * 
+     * @return void
+     */
     public function close()
     {
+        // Skip if already closed
         if ($this->is_closed) {
             return;
         }
 
+        // Get the highest bid
         $highestBid = $this->bids()->orderBy('bid_amount', 'desc')->first();
         
-        $this->is_closed = true;
-        $this->winner_id = $highestBid ? $highestBid->user_id : null;
-        $this->save();
+        // Log for debugging
+        Log::info('Closing auction #' . $this->id . ' with highest bid: ' . ($highestBid ? $highestBid->user_id : 'none'));
+        
+        // Start a database transaction
+        DB::beginTransaction();
+        
+        try {
+            // Set closure status
+            $this->is_closed = true;
+            
+            // Set winner if we have bids
+            if ($highestBid) {
+                $this->winner_id = $highestBid->user_id;
+                Log::info('Setting winner_id to: ' . $highestBid->user_id);
+            } else {
+                $this->winner_id = null;
+                Log::info('No winner for auction #' . $this->id);
+            }
+            
+            // Save the changes
+            $saved = $this->save();
+            
+            // Verify save was successful
+            if (!$saved) {
+                Log::error('Failed to save auction #' . $this->id);
+                throw new \Exception('Failed to save auction');
+            }
+            
+            // Check if winner_id was actually saved
+            $verifyAuction = self::find($this->id);
+            Log::info('Auction #' . $this->id . ' after save: is_closed=' . 
+                ($verifyAuction->is_closed ? 'true' : 'false') . 
+                ', winner_id=' . ($verifyAuction->winner_id ?? 'null'));
+            
+            // Commit transaction
+            DB::commit();
+            
+            return true;
+        } catch (\Exception $e) {
+            // Rollback on error
+            DB::rollBack();
+            Log::error('Error closing auction #' . $this->id . ': ' . $e->getMessage());
+            throw $e;
+        }
     }
 }

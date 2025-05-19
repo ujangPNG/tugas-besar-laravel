@@ -306,6 +306,7 @@
                         <p class="text-gray-600 px-2 text-xs">id auction: {{ $auction->id }}</p>
                         <p class="text-gray-600 px-2 text-xs">is closed: {{ $auction->is_closed ? 'true' : 'false' }}</p>
                         <p class="text-gray-600 px-2 text-xs">image: {{ $auction->image_path ? 'true' : 'false' }}</p>
+                        <p class="text-gray-600 px-2 text-xs">id winner: {{ $auction->winner_id }}</p>
                     </div>
                     </div>
                 @endforeach

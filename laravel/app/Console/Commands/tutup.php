@@ -23,6 +23,6 @@ class tutup extends Command
             $this->info("harga terakhir: {$auction->current_price}\n");
         }
 
-        $this->info('tutup lelang selesai');
+        $this->info('tutup lelang done');
     }
 } 

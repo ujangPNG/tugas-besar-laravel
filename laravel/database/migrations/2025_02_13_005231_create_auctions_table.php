@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('image_path')->nullable();
-            $table->decimal('starting_price', 20, 2);
-            $table->decimal('current_price', 20, 2);
+            $table->decimal('starting_price', 30, 2);
+            $table->decimal('current_price', 30, 2);
             $table->dateTime('end_date');
             $table->boolean('is_closed')->default(false);
             $table->foreignId('winner_id')->nullable()->constrained('users')->nullOnDelete();

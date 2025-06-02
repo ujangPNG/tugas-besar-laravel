@@ -74,12 +74,16 @@ Untuk memastikan gambar dapat tersimpan dengan benar
 1. **Install & Jalankan NPM:**
 ```bash
 npm install
-npm run dev
+npm run build
 ```
 
 2. **Jalankan Server Laravel:**
 ```bash
 php artisan serve
+```
+atau
+```bash
+php artisan serve --host=0.0.0.0 --port=8000  
 ```
 Akses aplikasi di: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 

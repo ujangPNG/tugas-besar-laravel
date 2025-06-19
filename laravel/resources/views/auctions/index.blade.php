@@ -151,7 +151,8 @@
                                 @endif
                             @endif
 
-                            @if (Auth::id() == $auction->user_id && !$auction->is_closed || Auth::id() == 8  && !$auction->is_closed) # 8 tu id mufid ikan
+                            @if (Auth::id() == $auction->user_id && !$auction->is_closed || Auth::id() == 8  && !$auction->is_closed)  
+                            <!-- 8 tu id mufid ikan -->
                                 <form action="{{ route('auctions.close', $auction->id) }}" method="POST" class="mt-2">
                                     @csrf
                                     <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">

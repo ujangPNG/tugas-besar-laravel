@@ -78,7 +78,7 @@
         <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8">
             <div class="fade-in">
                 <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
-                    Welcome to <span class="text-red-500">Laravel</span>
+                    Welcome to <span class="text-red-500">LeLang</span>
                 </h1>
                 <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
                     Discover amazing auctions and bid on your favorite items in our secure platform
@@ -86,7 +86,7 @@
                 <div class="space-x-4">
                     @auth
                         <a href="{{ route('auctions.index') }}" class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
-                            Explore Auctions
+                            Jelajahi Lelang
                         </a>
                         <a href="{{ route('dashboard') }}" class="inline-block border-2 border-white text-white hover:bg-white hover:text-gray-900 font-semibold py-3 px-8 rounded-lg transition duration-300">
                             Dashboard
@@ -116,7 +116,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 fade-in">
                 <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    Why Choose Our Platform?
+                    Mengapa memilih platform kami?
                 </h2>
                 <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                     Experience the best auction platform with secure bidding and amazing deals
@@ -131,7 +131,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Secure Bidding</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Your transactions are protected with industry-standard security protocols</p>
+                    <p class="text-gray-600 dark:text-gray-400">Transaksimu dilindungi dengan protokol berstandar industri </p>
                 </div>
                 
                 <div class="text-center fade-in">
@@ -141,7 +141,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Real-time Updates</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Get instant notifications when someone outbids you</p>
+                    <p class="text-gray-600 dark:text-gray-400">Dapatkan notifikasi instan ketika seseorang <i>outbid</i> kamu</p>
                 </div>
                 
                 <div class="text-center slide-in-right">
@@ -151,7 +151,7 @@
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Premium Items</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Discover unique and valuable items from trusted sellers</p>
+                    <p class="text-gray-600 dark:text-gray-400">Temukan berbagai barang unik dan berharga dari selller terpercaya</p>
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@
                     How It Works
                 </h2>
                 <p class="text-xl text-gray-600 dark:text-gray-400">
-                    Simple steps to start bidding
+                    Langkah mudah untuk mulai menawar
                 </p>
             </div>
             
@@ -173,25 +173,25 @@
                 <div class="text-center slide-in-left">
                     <div class="bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Register</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Create your account in minutes</p>
+                    <p class="text-gray-600 dark:text-gray-400">Buat akunmu dalam semenit</p>
                 </div>
                 
                 <div class="text-center fade-in">
                     <div class="bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Browse</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Explore amazing auction items</p>
+                    <p class="text-gray-600 dark:text-gray-400">Jelajahi barang lelang yang menarik</p>
                 </div>
                 
                 <div class="text-center fade-in">
                     <div class="bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Bid</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Place your bids on favorite items</p>
+                    <p class="text-gray-600 dark:text-gray-400">Pasang penawaran ke barang favoritmu</p>
                 </div>
                 
                 <div class="text-center slide-in-right">
                     <div class="bg-red-600 text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">4</div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Win</h3>
-                    <p class="text-gray-600 dark:text-gray-400">Celebrate your winning bids!</p>
+                    <p class="text-gray-600 dark:text-gray-400">Selebrasi kemenangan penawaranmu!</p>
                 </div>
             </div>
         </div>
@@ -229,11 +229,11 @@
                 </p>
                 @auth
                     <a href="{{ route('auctions.index') }}" class="inline-block bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
-                        Browse Auctions Now
+                        Browse Auctions Now!
                     </a>
                 @else
                     <a href="{{ route('register') }}" class="inline-block bg-white text-red-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105">
-                        Sign Up Today
+                        Sign Up Today!
                     </a>
                 @endauth
             </div>
